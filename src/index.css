@@ -1,0 +1,209 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    font-family: 'Inter', system-ui, sans-serif;
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+  }
+  body {
+    @apply antialiased bg-[#FAFAFA] text-gray-900;
+  }
+}
+
+/* -----------------------------------------
+   COMPONENT UTILITIES & EFFECTS
+----------------------------------------- */
+@layer components {
+  .glass-effect {
+    @apply bg-white/90 backdrop-blur-md border border-white/20;
+  }
+
+  .gradient-bg {
+    background: linear-gradient(135deg, #1E3A8A 0%, #3B82F6 50%, #F59E0B 100%);
+  }
+
+  .text-gradient {
+    background: linear-gradient(135deg, #1E3A8A, #F59E0B);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hover-lift {
+    @apply transition-all duration-300 ease-out hover:-translate-y-2 hover:shadow-xl;
+  }
+
+  .fade-in {
+    @apply opacity-0 translate-y-4 transition-all duration-500 ease-out;
+  }
+
+  .fade-in-visible {
+    @apply opacity-100 translate-y-0;
+  }
+
+  /* Golden UI helpers */
+  .golden-strip {
+    height: 2px;
+    width: 100%;
+    border-radius: 9999px;
+    background-image: linear-gradient(
+      90deg,
+      rgba(255,215,0,0.04) 0%,
+      rgba(255,215,0,0.12) 10%,
+      rgba(255,215,0,0.04) 25%,
+      rgba(255,215,0,0.01) 50%,
+      rgba(255,215,0,0.04) 75%,
+      rgba(255,215,0,0.12) 90%,
+      rgba(255,215,0,0.04) 100%
+    );
+    background-size: 200% 100%;
+    animation: golden-shimmer 6s linear infinite;
+    filter: saturate(1.05) blur(0.2px);
+    box-shadow: 0 2px 8px rgba(212,175,55,0.05);
+  }
+
+  .gold-x {
+    color: #FFD700;
+  }
+
+  .golden-halo {
+    display: inline-grid;
+    place-items: center;
+    border-radius: 9999px;
+    padding: 4px;
+    background: linear-gradient(180deg, rgba(255,215,0,0.06), rgba(255,215,0,0.02));
+    box-shadow: 0 4px 14px rgba(212,175,55,0.06);
+  }
+
+  /* Glass button (used in modals or hero CTA) */
+  .btn-glass {
+    @apply rounded-full px-6 py-3 text-sm font-semibold text-gray-900 bg-white/90 backdrop-blur-md border border-white/20 shadow-sm transition-all duration-300;
+  }
+  .btn-glass:hover {
+    @apply bg-white text-black shadow-lg scale-[1.02];
+  }
+
+  /* Gradient button swipe */
+  .btn-gradient-swipe {
+    @apply relative overflow-hidden bg-gradient-to-r from-[#0D3F67] to-[#E0D9D9] text-[#F5F5F5] transition-all duration-300 ease-in-out;
+    z-index: 10;
+  }
+
+  .btn-gradient-swipe::before {
+    content: '';
+    @apply absolute inset-0 bg-gradient-to-r from-[#E0D9D9] to-[#0D3F67];
+    transform: translateX(-100%);
+    transition: transform 0.8s ease;
+    z-index: -1;
+  }
+
+  .btn-gradient-swipe:hover::before {
+    transform: translateX(0);
+  }
+}
+
+/* -----------------------------------------
+   MOTION UTILITIES
+----------------------------------------- */
+@layer utilities {
+  @keyframes fadeInScale {
+    from {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+  .animate-fadeInScale {
+    animation: fadeInScale 0.25s ease-out forwards;
+  }
+
+  @keyframes golden-shimmer {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 200% 50%; }
+  }
+
+  /* Subtle floating motion for cards/images */
+  @keyframes float-smooth {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-4px); }
+  }
+  .animate-float {
+    animation: float-smooth 6s ease-in-out infinite;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .golden-strip,
+    .animate-fadeInScale,
+    .animate-float {
+      animation: none !important;
+    }
+  }
+}
+
+/* -----------------------------------------
+   SCROLLBAR
+----------------------------------------- */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  @apply bg-gray-100;
+}
+::-webkit-scrollbar-thumb {
+  @apply bg-gray-400/70 rounded-xl transition-colors;
+}
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-gray-600;
+}
+
+/* -----------------------------------------
+   NAVBAR / LINK GOLDEN UNDERLINE
+----------------------------------------- */
+.golden-glow {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -6px;
+  height: var(--golden-height, 12px);
+  pointer-events: none;
+  background: linear-gradient(
+    90deg,
+    rgba(255,215,64,0.20) 0%,
+    rgba(255,239,153,0.30) 20%,
+    rgba(255,215,64,0.18) 40%,
+    rgba(255,239,153,0.14) 60%,
+    rgba(255,215,64,0.12) 100%
+  );
+  background-size: 200% 100%;
+  filter: blur(var(--golden-blur, 10px)) saturate(1.05);
+  box-shadow: 0 6px 24px rgba(255,184,28,0.22);
+  animation: golden-move 6s linear infinite, golden-pulse 4s ease-in-out infinite;
+  opacity: var(--golden-opacity, 1);
+}
+
+@keyframes golden-move {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes golden-pulse {
+  0% { opacity: 0.9; transform: translateY(0); }
+  50% { opacity: 1; transform: translateY(1px); }
+  100% { opacity: 0.9; transform: translateY(0); }
+}
+
+@media (max-width: 768px) {
+  .golden-glow {
+    height: calc(var(--golden-height, 12px) * 0.7);
+    filter: blur(8px);
+    animation-duration: 5s, 3.6s;
+  }
+}
